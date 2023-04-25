@@ -1,3 +1,4 @@
+import { crearUsuario } from '../lib/fnFirebase';
 import { onNavigate } from '../router';
 
 export const register = () => {
@@ -14,7 +15,11 @@ export const register = () => {
   buttonHome.textContent = 'Volver al home';
   buttonRegister.addEventListener('click', () => {
     // llama funcion navigate y pasa string con la ruta
-    onNavigate('/wall');
+   
+     crearUsuario(inputEmail.value, inputPassword.value).then(()=>{
+      onNavigate('/wall');
+     })
+   // console.log(inputEmail.value, inputPassword.value);
   });
   buttonHome.addEventListener('click', () => {
     // llama funcion navigate y pasa string con la ruta
