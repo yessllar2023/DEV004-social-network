@@ -23,22 +23,21 @@ export const home = () => {
           alert('No estas registrado, aprovecha y registrate')
         })
     })
+
     btnGoogle.addEventListener('click', ()=>{
        console.log('google ok');
         signInWithGoogle('google ok').then(()=>{
-         //Aqui copias firebase
-        // console.log(respuesta);
-        //traer funcion loginGoogle
-        // manejas la promesa con then
         onNavigate('/wall');
-        //dentro del then llamas a onNavigate para que te lleve al muro
       })
   })
+     //Aqui copias firebase// console.log(respuesta);//traer funcion loginGoogle
+        // manejas la promesa con then //dentro del then llamas a onNavigate para que te lleve al muro
 
     btnRegister.addEventListener('click', ()=>{
         console.log('Register ok');
         onNavigate('/register');
     })
+    
     article.append(email, password, btnSignIn, btnGoogle, btnRegister)
   return article;
 };
