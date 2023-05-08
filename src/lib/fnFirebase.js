@@ -4,6 +4,9 @@ import { getAuth, createUserWithEmailAndPassword,
    signInWithPopup } from "firebase/auth";
 import { initializeApp } 
 from "firebase/app";
+import { collection, addDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,6 +23,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+//Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
 
 export const crearUsuario = (email, password)=>{
     return createUserWithEmailAndPassword(auth, email, password)
@@ -63,5 +68,22 @@ export  const signInWithGoogle = () =>{
     // The AuthCredential type that was used.
     const credential = GoogleAuthProvider.credentialFromError(error);
     // ...
-  });
+  });  
 }
+
+
+
+// Add a new document with a generated id.
+
+ export async function crearNuevoPost(texto){
+  const docRef = await addDoc(collection(db, "post"), {
+    text: texto,
+  });
+  console.log("Document written with ID: ", docRef.id);
+}
+
+//detectar actualizaciones en tiempo real en firebae
+//dentro Escucha varios documentos en una colección onshopp y otros
+//pasos para compilacion de firebase:
+//muestro firebase
+//creo functionimporto fb dentro de import()
