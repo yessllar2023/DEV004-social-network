@@ -10,6 +10,7 @@ export const register = () => {
   const buttonHome = document.createElement('button');
   // modifica propiedades de los elemento
   inputEmail.setAttribute('type', 'email');
+  
   inputPassword.setAttribute('type', 'password');
   buttonRegister.textContent = 'Registrate';
   buttonHome.textContent = 'Volver al home';

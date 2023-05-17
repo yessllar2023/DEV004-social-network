@@ -1,9 +1,9 @@
-import {crearNuevoPost}
-from '../lib/fnFirebase.js'
+import {crearNuevoPost,mostrarPosts, auth, eliminarPost}from '../lib/fnFirebase.js'
+import {onSnapshot}from "firebase/firestore";
 export const wall = () => {
-  // crea contenedor principal
-  const h1 = document.createElement('h1');
-  const h2 = document.createElement('h2');
+// crea contenedor principal
+ const h1 = document.createElement('h1');
+ const h2 = document.createElement('h2');
   const article = document.createElement('article');
   article.className = "flexWall";
   h1.textContent = 'Hola';
@@ -16,28 +16,55 @@ export const wall = () => {
   const btnEnviar = document.createElement('button')
   btnEnviar.className = 'btnEnviar'
   btnEnviar.textContent = 'Enviar'
-  // retorna el elemento
-  //return h1;
-
-  //validacion
-//Al publicar, se debe validar que exista contenido en el input crearpost.
-btnEnviar.addEventListener('click',()=>{
-  if(crearPost.value===''){
+  const articleComments = document.createElement('article');
+  //validacion. Al publicar, se debe validar que exista contenido en el input crearpost.
+  btnEnviar.addEventListener('click',()=>{
+  if(crearPost.value === ''){
     alert('ingresa texto')
-
   }else{
   console.log(crearPost.value)
   crearNuevoPost(crearPost.value)
   }
-})
-
-//comportamiento
-//Poder publicar un post.
-
-//hu3 eliminar post 
-//Poder eliminar un post específico.
-//Pedir confirmación antes de eliminar un post.
-
- article.append(h1,h2,crearPost,btnEnviar)//imgGoogle,
-return article;
+ })
+ //visualizar la publicacion
+  onSnapshot(mostrarPosts(), (querySnapshot) => {
+    articleComments.innerHTML = ''
+    querySnapshot.forEach((doc) => {
+     console.log(doc.data().text);
+     const articlePost = document.createElement('article')
+     const p = document.createElement('p')
+     p.textContent = doc.data().text
+     p.setAttribute('data-userid', doc.data().uid);
+     const btnBorrar = document.createElement('button')
+     btnBorrar.className = 'btnBorrar';
+     btnBorrar.value =doc.id;
+     btnBorrar.textContent = 'Eliminar';
+     // btnBorrar.type = 'submit';btnBorrar.style.display = 'none';
+     articlePost.appendChild(p)
+     if(doc.data().uid === auth.currentUser.uid){
+      articlePost.appendChild(btnBorrar);     
+     }
+     articleComments.appendChild(articlePost)
+    })
+    const allbuttons = document.querySelectorAll('.btnBorrar')
+    // recorrer cada boton
+    allbuttons.forEach((btn)=>{
+     console.log(btn);
+     // seleccionar todos los botones borrar
+     btn.addEventListener('click',(e)=>{
+     //   e.stopPropagation();
+     const id = e.target.value;
+     console.log(id, '******')
+     //pide una confirmacion antes de eliminar el post
+     const opcion =confirm('¿Estás seguro que quieres eliminar este post?');
+     console.log(opcion);
+     if(opcion === true){
+     eliminarPost(id);//vusualizo la eliminacion
+     }
+    });
+  });
+ });
+ 
+ article.append(h1,h2,crearPost,btnEnviar, articleComments)//imgGoogle,
+ return article;
 };

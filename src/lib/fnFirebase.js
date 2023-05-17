@@ -1,15 +1,11 @@
 // Aqui viven las funciones de firebase
-import { getAuth, createUserWithEmailAndPassword,
-   signInWithEmailAndPassword, GoogleAuthProvider, 
-   signInWithPopup } from "firebase/auth";
-import { initializeApp } 
-from "firebase/app";
-import { collection, addDoc } from "firebase/firestore";
-import { getFirestore } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword, 
+ GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { collection, addDoc, getFirestore,query,doc, deleteDoc, Timestamp, orderBy } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCGZmoJ-RaGggbdOgeW9bCiSuPODvXmDUo",
@@ -22,28 +18,28 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
+export const auth = getAuth();
 //Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
 export const crearUsuario = (email, password)=>{
-    return createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      // ...
-      return user
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-      return errorMessage
-    });
+  return createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+  // Signed in
+  const user = userCredential.user;
+  // ...
+  return user
+  })
+  .catch((error) => {
+   const errorCode = error.code;
+   const errorMessage = error.message;
+   // ..
+   return errorMessage
+  });
 }
 
 export const loginEmailPassword = (email, password)=>{
-    return signInWithEmailAndPassword(auth, email, password)
+  return signInWithEmailAndPassword(auth, email, password)
 }
 
 export  const signInWithGoogle = () =>{
@@ -68,22 +64,24 @@ export  const signInWithGoogle = () =>{
     // The AuthCredential type that was used.
     const credential = GoogleAuthProvider.credentialFromError(error);
     // ...
-  });  
+  });
 }
-
-
 
 // Add a new document with a generated id.
-
- export async function crearNuevoPost(texto){
-  const docRef = await addDoc(collection(db, "post"), {
-    text: texto,
+ export  function crearNuevoPost(text){//async y await 
+  const docRef = addDoc(collection(db, "post"), {
+    text, //text:text,
+    uid: auth.currentUser.uid, 
+    email: auth.currentUser.email,  
+    name: auth.currentUser.displayName,
+    dateCreate: Timestamp.now(),
   });
-  console.log("Document written with ID: ", docRef.id);
+  //console.log("Document written with ID: ", docRef.id);
 }
 
-//detectar actualizaciones en tiempo real en firebae
-//dentro Escucha varios documentos en una colección onshopp y otros
-//pasos para compilacion de firebase:
-//muestro firebase
-//creo functionimporto fb dentro de import()
+export function mostrarPosts(){
+  const q = query(collection(db, "post"), orderBy('dateCreate', 'desc'));
+  return q
+}
+//borrar datos
+export const eliminarPost = (id) => deleteDoc(doc(db, 'post', id));                      

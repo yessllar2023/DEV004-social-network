@@ -122,6 +122,17 @@
     box-shadow: 3px 3px 6px 0px rgba(0, 0, 0, 0.4);
     border: 3px solid rgba(28, 27, 27, 0.397);
    }
+   .btnBorrar{
+    text-align: center;
+    border-radius: 4px;
+    background-color: rgba(86, 224, 51, 0.374);
+    width: 90px;
+    height: 40px;
+    margin:5px 10px 5px 245px;
+    font-size: 16px;
+    box-shadow: 3px 3px 6px 0px rgba(0, 0, 0, 0.4);
+    border: 3px solid rgba(28, 27, 27, 0.397);
+   }
 
    /*registro*/
 /*aqui modificar las copias para lo necesario  del registro formato similar al de home*/
