@@ -2,7 +2,7 @@
 import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword, 
  GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { collection, addDoc, getFirestore,query,doc, deleteDoc, Timestamp, orderBy } from "firebase/firestore";
+import { collection, addDoc, getFirestore,query,doc, deleteDoc, Timestamp, orderBy, updateDoc } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -68,7 +68,7 @@ export  const signInWithGoogle = () =>{
 }
 
 // Add a new document with a generated id.
- export  function crearNuevoPost(text){//async y await 
+export  function crearNuevoPost(text){//async y await 
   const docRef = addDoc(collection(db, "post"), {
     text, //text:text,
     uid: auth.currentUser.uid, 
@@ -84,4 +84,16 @@ export function mostrarPosts(){
   return q
 }
 //borrar datos
-export const eliminarPost = (id) => deleteDoc(doc(db, 'post', id));                      
+export function eliminarPost(id){
+  deleteDoc(doc(db, 'post', id));   
+}
+
+export function editarPost(id, texto){// en argumento seria(docId//id de documento, actualPost//un texto)
+ const miRef = doc(db, 'post',id);//docRef (documento 'post' o campo'text')
+ // Establecer el campo "post" del id
+ return updateDoc(miRef, {
+ text: texto,// seria nuevo texto o text
+});
+};
+
+
