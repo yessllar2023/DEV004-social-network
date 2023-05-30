@@ -99,7 +99,7 @@ export const wall = () => {
       if(doc.data().uid === auth.currentUser.uid){
         articlePost.append(btnBorrar, btnEditar);  
         articlePost.appendChild(articleEditar);
-      }
+   }
       articleComments.appendChild(articlePost)
     })
     //aqui seleciionamos el mensaje para borrar

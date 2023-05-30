@@ -1,5 +1,5 @@
-import { crearUsuario } from '../lib/fnFirebase';
-import { onNavigate } from '../router';
+import { crearUsuario } from '../lib/fnFirebase.js';
+import { onNavigate } from '../router.js';
 
 export const register = () => {
   // crea contenedor principal

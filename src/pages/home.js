@@ -1,5 +1,5 @@
-import { onNavigate } from '../router';
-import { loginEmailPassword, signInWithGoogle} from '../lib/fnFirebase';
+import { onNavigate } from '../router.js';
+import { loginEmailPassword, signInWithGoogle} from '../lib/fnFirebase.js';
 export const home = () => {
  // crea contenedor principal
  // modifica propiedades de los elemento
