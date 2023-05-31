@@ -1,9 +1,9 @@
 // Aqui viven las funciones de firebase
 import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword, 
- GoogleAuthProvider, signInWithPopup } from "/firebase/auth";
-import { initializeApp } from "/firebase/app";
+ GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { initializeApp } from "firebase/app";
 import { collection, addDoc, getFirestore,query,doc, deleteDoc,
-  Timestamp, orderBy, updateDoc } from "/firebase/firestore";
+  Timestamp, orderBy, updateDoc } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
